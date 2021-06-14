@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "field")
+@Table(name = "fields")
 public class Field {
 
     @Id
@@ -19,13 +19,11 @@ public class Field {
 
     private String label;
 
-    @Column(name = "type_field")
-    private String typeField;
+    private String type;
 
     private boolean required;
 
-    @Column(name = "is_active")
-    private boolean isActive;
+    private boolean active;
 
 
 

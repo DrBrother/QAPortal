@@ -10,14 +10,17 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "possible_answer")
-public class PossibleAnswer {
+@Table(name = "options")
+public class Option {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ig;
 
-    @Column(name = "possible_answer")
-    private String possibleAnswer;
+    private String option;
+
+    @ManyToOne
+    @JoinColumn(name = "field_id")
+    private Field field;
 
 }
