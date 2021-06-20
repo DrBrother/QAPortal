@@ -22,9 +22,9 @@ public class Answer {
     private String answer;
 
 
-    @ManyToOne
+    @ManyToMany
     @JoinColumn(name = "field_id")
-    private Field field;
+    private List<Field> fieldList;
 
 
 }
