@@ -32,24 +32,24 @@ public class UserController {
     public ResponseEntity<User> login(@RequestBody String passwordAndEmail, HttpServletRequest request) {
         User user = userService.login(passwordAndEmail);
         if (user != null) {
-            request.getSession().setAttribute("authenticated", true);
+        //    request.getSession().setAttribute("authenticated", true);
             return ResponseEntity.ok(user);
         } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/logout")
     public ResponseEntity<User> logout(HttpServletRequest request) {
-        request.getSession().setAttribute("authenticated", null);
+       // request.getSession().setAttribute("authenticated", null);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/{userId}/delete")
+    @DeleteMapping("/users/{userId}")
     public ResponseEntity<User> deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/{userId}/edit")
+    @PutMapping("/users/{userId}")
     public ResponseEntity<User> updateUser(@RequestBody String updatedUser, @PathVariable Long userId) {
         User user = userService.updateUser(updatedUser, userId);
         if (user != null) {
@@ -57,7 +57,7 @@ public class UserController {
         } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping("/{userId}/updatePassword")
+    @PutMapping("users/{userId}/password")
     public ResponseEntity<User> updatePassword(@RequestBody String updatedUser, @PathVariable Long userId) {
         User user = userService.updatePassword(updatedUser, userId);
         if (user != null) {

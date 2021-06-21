@@ -1,15 +1,8 @@
 package by.softarex.collectdata.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "options")
 public class Option {
 
@@ -22,6 +15,17 @@ public class Option {
     @ManyToOne
     @JoinColumn(name = "field_id")
     private Field field;
+
+    public Option(){}
+
+    public Option(String option) {
+        this.option = option;
+    }
+
+    public Option(Long id, String option) {
+        this.id = id;
+        this.option = option;
+    }
 
     public Long getId() {
         return id;
@@ -39,11 +43,4 @@ public class Option {
         this.option = option;
     }
 
-    public Field getField() {
-        return field;
-    }
-
-    public void setField(Field field) {
-        this.field = field;
-    }
 }

@@ -19,7 +19,7 @@ public class AnswerController {
         this.answerService = answerService;
     }
 
-    @PostMapping("/questionnaire")
+    @PostMapping("/questionnaires")
     public ResponseEntity<Answer> writeAnswer(@RequestBody Answer answer) {
         return null;
     }

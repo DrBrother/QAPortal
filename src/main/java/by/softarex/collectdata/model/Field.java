@@ -1,16 +1,13 @@
 package by.softarex.collectdata.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "fields")
 public class Field {
 
@@ -25,6 +22,11 @@ public class Field {
     private boolean required;
 
     private boolean active;
+
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @JoinColumn(name = "field_id")
+    private List<Option> optionList = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -64,6 +66,14 @@ public class Field {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public List<Option> getOptionList() {
+        return optionList;
+    }
+
+    public void setOptionList(List<Option> optionList) {
+        this.optionList = optionList;
     }
 }
 

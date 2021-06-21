@@ -2,10 +2,9 @@ package by.softarex.collectdata.service;
 
 import by.softarex.collectdata.model.Field;
 import by.softarex.collectdata.model.Option;
-import by.softarex.collectdata.model.User;
 import by.softarex.collectdata.repositories.FieldRepository;
 import by.softarex.collectdata.repositories.OptionRepository;
-import lombok.Setter;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,29 +15,31 @@ import java.util.List;
 public class FieldService {
 
     private final FieldRepository fieldRepository;
-//    private final OptionRepository optionRepository;
+    private final OptionRepository optionRepository;
 
     @Autowired
-    public FieldService(FieldRepository fieldRepository) {
+    public FieldService(FieldRepository fieldRepository, OptionRepository optionRepository) {
         this.fieldRepository = fieldRepository;
-//        this.optionRepository = optionRepository;
+        this.optionRepository = optionRepository;
     }
 
     public List<Field> findAll() {
         return fieldRepository.findAll();
     }
 
-    public Field save(Field field) {
+    public Field save(String field) {
         Field newField = new Field();
-//        Option newOption = new Option();
-        newField.setLabel(field.getLabel());
-        newField.setActive(field.getActive());
-        newField.setRequired(field.getRequired());
-        newField.setType(field.getType());
-//        if(option.getOption() != null){
-//            newOption.setField(option.getField());
-//            optionRepository.save(newOption);
-//        }
+        JSONObject updatedFieldJson = new JSONObject(field);
+        newField.setLabel(updatedFieldJson.getString("label"));
+        newField.setType(updatedFieldJson.getString("type"));
+        newField.setRequired(updatedFieldJson.getBoolean("required"));
+        newField.setActive(updatedFieldJson.getBoolean("active"));
+        if (!updatedFieldJson.isNull("option")) {
+            JSONArray jsonArray = updatedFieldJson.getJSONArray("option");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                newField.getOptionList().add(new Option(jsonArray.getString(i)));
+            }
+        }
         return fieldRepository.save(newField);
     }
 
@@ -49,11 +50,23 @@ public class FieldService {
         existingField.setType(updatedFieldJson.getString("type"));
         existingField.setRequired(updatedFieldJson.getBoolean("required"));
         existingField.setActive(updatedFieldJson.getBoolean("active"));
+
+        if (!updatedFieldJson.isNull("option")) {
+            existingField.getOptionList().clear();
+            JSONArray jsonArray = updatedFieldJson.getJSONArray("option");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                Option option = new Option(jsonArray.getString(i));
+                existingField.getOptionList().add(option);
+                optionRepository.save(option);
+            }
+        }
         return fieldRepository.save(existingField);
     }
 
     public void deleteField(Long fieldId) {
         Field deleteField = fieldRepository.getById(fieldId);
+//        Option deletedOption = optionRepository.getByField_Id(fieldId);
+//        optionRepository.delete(deletedOption);
         fieldRepository.delete(deleteField);
     }
 }

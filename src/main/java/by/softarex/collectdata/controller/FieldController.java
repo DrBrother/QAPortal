@@ -1,8 +1,6 @@
 package by.softarex.collectdata.controller;
 
 import by.softarex.collectdata.model.Field;
-import by.softarex.collectdata.model.Option;
-import by.softarex.collectdata.model.User;
 import by.softarex.collectdata.service.FieldService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,12 +25,12 @@ public class FieldController {
         return ResponseEntity.ok(fieldService.findAll());
     }
 
-    @PostMapping("/newField")
-    public ResponseEntity<Field> save(@RequestBody Field field) {
+    @PostMapping("/fields")
+    public ResponseEntity<Field> save(@RequestBody String field) {
         return ResponseEntity.ok(fieldService.save(field));
     }
 
-    @PutMapping("/{fieldId}/editField")
+    @PutMapping("/fields/{fieldId}")
     public ResponseEntity<Field> updateField(@RequestBody String updatedField, @PathVariable Long fieldId) {
         Field field = fieldService.updateField(updatedField, fieldId);
         if (field != null) {
@@ -40,7 +38,7 @@ public class FieldController {
         } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @DeleteMapping(value = "/{fieldId}/delete")
+    @DeleteMapping("/fields/{fieldId}")
     public ResponseEntity<Field> deleteField(@PathVariable Long fieldId) {
         fieldService.deleteField(fieldId);
         return new ResponseEntity<>(HttpStatus.OK);
