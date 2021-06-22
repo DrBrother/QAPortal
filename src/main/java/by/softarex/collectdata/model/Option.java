@@ -22,11 +22,6 @@ public class Option {
         this.option = option;
     }
 
-    public Option(Long id, String option) {
-        this.id = id;
-        this.option = option;
-    }
-
     public Long getId() {
         return id;
     }
