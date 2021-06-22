@@ -3,11 +3,8 @@ package by.softarex.collectdata.service;
 
 import by.softarex.collectdata.model.Answer;
 import by.softarex.collectdata.model.Field;
-import by.softarex.collectdata.model.Option;
 import by.softarex.collectdata.repositories.AnswerRepository;
 import by.softarex.collectdata.repositories.FieldRepository;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,13 +34,10 @@ public class AnswerService {
         List<Field> fieldList = fieldRepository.findAll();
         int questionnaireId = newAnswer.randomId();
 
-        for (int i = 0; i < answerRepository.findAllByQuestionnaireId().length; i++) {
-            int k = answerRepository.findAllByQuestionnaireId()[i];
-            if (k == questionnaireId) {
-                questionnaireId = newAnswer.randomId();
-            }
-        }
+        if (answerRepository.findAllByQuestionnaireId(questionnaireId) != null) {
+            questionnaireId = newAnswer.randomId();
 
+        }
         for (int i = 0; i < answers.length; i++) {
             answers[i].setFieldList(new ArrayList<>());
             answers[i].getFieldList().add(fieldList.get(i));

@@ -13,22 +13,22 @@ public class Answer {
 
     private String answer;
 
-//    костыль
-    private int questionnaireId;
-
-
     @ManyToMany
     @JoinColumn(name = "field_id")
     private List<Field> fieldList;
 
-    public Answer(String answer) {
-        this.answer = answer;
-    }
+//    костыль
+    private int questionnaireId;
 
     public int randomId(){
         int min = 0;
-        int max = 1000;
+        int max = 10000;
         return min + (int) (Math.random()*max);
+    }
+
+    public Answer(String answer, int questionnaireId) {
+        this.answer = answer;
+        this.questionnaireId = questionnaireId;
     }
 
     public Answer() {
