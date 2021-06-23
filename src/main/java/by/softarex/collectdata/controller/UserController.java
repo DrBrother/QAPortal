@@ -29,9 +29,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody String passwordAndEmail, HttpServletRequest request) {
-        User user = userService.login(passwordAndEmail);
-        if (user != null) {
+    public ResponseEntity<User> login(@RequestBody User user, HttpServletRequest request) {
+        if (userService.login(user) != null) {
         //    request.getSession().setAttribute("authenticated", true);
             return ResponseEntity.ok(user);
         } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -64,6 +63,4 @@ public class UserController {
             return ResponseEntity.ok(user);
         } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-
-
 }

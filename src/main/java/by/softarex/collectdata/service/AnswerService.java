@@ -17,7 +17,6 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
     private final FieldRepository fieldRepository;
 
-
     @Autowired
     public AnswerService(AnswerRepository answerRepository, FieldRepository fieldRepository) {
         this.answerRepository = answerRepository;
@@ -27,7 +26,6 @@ public class AnswerService {
     public List<Answer> findAll() {
         return answerRepository.findAll();
     }
-
 
     public void save(Answer[] answers) {
         Answer newAnswer = new Answer();
@@ -43,9 +41,6 @@ public class AnswerService {
             answers[i].getFieldList().add(fieldList.get(i));
             answers[i].setQuestionnaireId(questionnaireId);
             answerRepository.save(answers[i]);
-
         }
     }
-
-
 }

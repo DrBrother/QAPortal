@@ -6,7 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OptionRepository extends JpaRepository<Option, Long> {
-
-    Option getByField_Id(Long id);
-
 }

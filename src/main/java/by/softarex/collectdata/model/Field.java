@@ -23,21 +23,13 @@ public class Field {
 
     private boolean active;
 
-    public Field(String label) {
-        this.label = label;
-    }
-
     public Field() {
     }
-
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     @JoinColumn(name = "field_id")
     private List<Option> optionList = new ArrayList<>();
-
-
-
 
     public Long getId() {
         return id;

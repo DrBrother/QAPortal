@@ -24,18 +24,14 @@ public class AnswerController {
         this.answerService = answerService;
     }
 
-
     @GetMapping("/questionnaires")
     public ResponseEntity<List<Answer>> getAllAnswers() {
         return ResponseEntity.ok(answerService.findAll());
     }
-
 
     @PostMapping("/questionnaires")
     public ResponseEntity<Answer> save(@RequestBody Answer[] answer) {
         answerService.save(answer);
         return new ResponseEntity(HttpStatus.OK);
     }
-
-
 }

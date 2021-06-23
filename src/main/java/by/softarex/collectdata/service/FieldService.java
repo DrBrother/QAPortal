@@ -65,8 +65,6 @@ public class FieldService {
 
     public void deleteField(Long fieldId) {
         Field deleteField = fieldRepository.getById(fieldId);
-//        Option deletedOption = optionRepository.getByField_Id(fieldId);
-//        optionRepository.delete(deletedOption);
         fieldRepository.delete(deleteField);
     }
 }

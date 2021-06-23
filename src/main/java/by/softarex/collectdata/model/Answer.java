@@ -26,11 +26,6 @@ public class Answer {
         return min + (int) (Math.random()*max);
     }
 
-    public Answer(String answer, int questionnaireId) {
-        this.answer = answer;
-        this.questionnaireId = questionnaireId;
-    }
-
     public Answer() {
     }
 

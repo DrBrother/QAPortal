@@ -20,7 +20,6 @@ public class UserService {
         this.emailService = emailService;
     }
 
-
     public User save(User user) {
         User newUser = new User();
         newUser.setFirstName(user.getFirstName());
@@ -34,24 +33,22 @@ public class UserService {
 
     public User existsByEmail(User newUser) {
         User existingUser = userRepository.getByEmail(newUser.getEmail());
-        if (existingUser == null) {
-            return newUser;
-        } else {
-            return null;
-        }
+        return existingUser;
     }
 
-    public User login(String passwordAndEmail) {
-        JSONObject passwordAndEmailJson = new JSONObject(passwordAndEmail);
-        String email = passwordAndEmailJson.getString("email");
-        String password = passwordAndEmailJson.getString("password");
-        User user = userRepository.getByEmail(email);
-        if (user != null) {
+    public User login(User user) {
+        String email =  user.getEmail();
+        String password = user.getPassword();
+        User userCheck = userRepository.getByEmail(email);
+        if (userCheck != null) {
             if (password.equals(user.getPassword())) {
-                return user;
+                return userCheck;
             } else return null;
-        } else return null;
+        }
+        return null;
     }
+
+
 
     public void deleteUser(Long userId) {
         User deletedUser = userRepository.getById(userId);
@@ -77,7 +74,7 @@ public class UserService {
                 existingUser.setPassword(updatedUserJson.getString("newPassword"));
             }
             return userRepository.save(existingUser);
-        } else return null;
+        }
+        return null;
     }
-
 }
