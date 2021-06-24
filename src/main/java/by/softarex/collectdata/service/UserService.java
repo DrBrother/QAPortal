@@ -2,9 +2,6 @@ package by.softarex.collectdata.service;
 
 import by.softarex.collectdata.model.User;
 import by.softarex.collectdata.repositories.UserRepository;
-
-
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +17,29 @@ public class UserService {
         this.emailService = emailService;
     }
 
+    public User existsByEmail(User newUser) {
+        User existingUser = userRepository.getByEmail(newUser.getEmail());
+        return existingUser;
+    }
+
+    public User login(User user) {
+        String email = user.getEmail();
+        String password = user.getPassword();
+        User userCheck = userRepository.getByEmail(email);
+        if (userCheck != null) {
+            if (password.equals(user.getPassword())) {
+                return userCheck;
+            } else return null;
+        }
+        return null;
+    }
+
+    public void deleteUser(Long userId) {
+        User deletedUser = userRepository.getById(userId);
+        emailService.sendSimpleMessage(deletedUser.getEmail(), "deletion");
+        userRepository.delete(deletedUser);
+    }
+
     public User save(User user) {
         User newUser = new User();
         newUser.setFirstName(user.getFirstName());
@@ -31,47 +51,21 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
-    public User existsByEmail(User newUser) {
-        User existingUser = userRepository.getByEmail(newUser.getEmail());
-        return existingUser;
-    }
-
-    public User login(User user) {
-        String email =  user.getEmail();
-        String password = user.getPassword();
-        User userCheck = userRepository.getByEmail(email);
-        if (userCheck != null) {
-            if (password.equals(user.getPassword())) {
-                return userCheck;
-            } else return null;
-        }
-        return null;
-    }
-
-
-
-    public void deleteUser(Long userId) {
-        User deletedUser = userRepository.getById(userId);
-        emailService.sendSimpleMessage(deletedUser.getEmail(), "deletion");
-        userRepository.delete(deletedUser);
-    }
-
-    public User updateUser(String updatedUser, Long userId) {
-        JSONObject updatedUserJson = new JSONObject(updatedUser);
+    public User updateUser(User user, Long userId) {
         User existingUser = userRepository.getById(userId);
-        existingUser.setFirstName(updatedUserJson.getString("firstName"));
-        existingUser.setLastName(updatedUserJson.getString("lastName"));
-        existingUser.setPhoneNumber(updatedUserJson.getString("phoneNumber"));
-        existingUser.setEmail(updatedUserJson.getString("email"));
+        existingUser.setFirstName(user.getFirstName());
+        existingUser.setLastName(user.getLastName());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setPhoneNumber(user.getPhoneNumber());
         return userRepository.save(existingUser);
     }
 
-    public User updatePassword(String updatedUser, Long userId) {
-        JSONObject updatedUserJson = new JSONObject(updatedUser);
+//    надо исправлять
+    public User updatePassword(User user, Long userId) {
         User existingUser = userRepository.getById(userId);
-        if (updatedUserJson.getString("currentPassword").equals(existingUser.getPassword())) {
-            if (!updatedUserJson.getString("newPassword").equals("")) {
-                existingUser.setPassword(updatedUserJson.getString("newPassword"));
+        if (user.getPassword().equals(existingUser.getPassword())) {
+            if (!user.getPassword().equals("")) {
+                existingUser.setPassword(user.getPassword());
             }
             return userRepository.save(existingUser);
         }

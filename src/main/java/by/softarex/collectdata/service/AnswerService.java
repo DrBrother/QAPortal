@@ -1,6 +1,5 @@
 package by.softarex.collectdata.service;
 
-
 import by.softarex.collectdata.model.Answer;
 import by.softarex.collectdata.model.Field;
 import by.softarex.collectdata.repositories.AnswerRepository;

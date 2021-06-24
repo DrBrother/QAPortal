@@ -1,8 +1,6 @@
 package by.softarex.collectdata.controller;
 
-
 import by.softarex.collectdata.model.Answer;
-import by.softarex.collectdata.model.Field;
 import by.softarex.collectdata.service.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
