@@ -4,7 +4,7 @@ import {Navbar, Nav} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 
 
-class NavigationBar extends React.Component {
+export default class NavigationBar extends React.Component {
     render() {
         return (
             <Navbar bg="dark" variant="dark">
@@ -19,10 +19,9 @@ class NavigationBar extends React.Component {
                 </Navbar.Brand>
                 <Nav className="me-auto">
                     <Link to={"fields"} className="navbar-brand"> Fields </Link>
+                    <Link to={"field"} className="navbar-brand">New field</Link>
                 </Nav>
             </Navbar>
         )
     }
 }
-
-export default NavigationBar;

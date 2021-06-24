@@ -2,6 +2,7 @@ package by.softarex.collectdata.service;
 
 import by.softarex.collectdata.model.User;
 import by.softarex.collectdata.repositories.UserRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,15 +61,17 @@ public class UserService {
         return userRepository.save(existingUser);
     }
 
-//    надо исправлять
-    public User updatePassword(User user, Long userId) {
+    public User updatePassword(String updatedUser, Long userId) {
+        JSONObject updatedUserJson = new JSONObject(updatedUser);
         User existingUser = userRepository.getById(userId);
-        if (user.getPassword().equals(existingUser.getPassword())) {
-            if (!user.getPassword().equals("")) {
-                existingUser.setPassword(user.getPassword());
+        if (updatedUserJson.getString("currentPassword").equals(existingUser.getPassword())) {
+            if (!updatedUserJson.getString("newPassword").equals("")) {
+                existingUser.setPassword(updatedUserJson.getString("newPassword"));
             }
             return userRepository.save(existingUser);
         }
         return null;
     }
 }
+
+

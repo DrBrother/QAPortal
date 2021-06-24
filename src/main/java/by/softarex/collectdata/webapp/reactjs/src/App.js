@@ -8,6 +8,7 @@ import NavigationBar from "./components/NavigationBar";
 import Welcome from "./components/Welcome";
 import Footer from "./components/Footer";
 import FieldList from "./components/FieldList";
+import Field from "./components/Field";
 
 function App() {
     const marginTop = {
@@ -23,6 +24,7 @@ function App() {
                         <Switch>
                             <Route path="/" exact component={Welcome}/>
                             <Route path="/fields" exact component={FieldList}/>
+                            <Route path="/field" exact component={Field}/>
                         </Switch>
                     </Col>
                 </Row>

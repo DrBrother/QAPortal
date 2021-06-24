@@ -56,7 +56,7 @@ public class UserController {
     }
 
     @PutMapping("users/{userId}/password")
-    public ResponseEntity<User> updatePassword(@RequestBody User user, @PathVariable Long userId) {
+    public ResponseEntity<User> updatePassword(@RequestBody String user, @PathVariable Long userId) {
         User newUser = userService.updatePassword(user, userId);
         if (newUser != null) {
             return ResponseEntity.ok(newUser);
