@@ -8,4 +8,5 @@ import java.util.List;
 
 @Repository
 public interface FieldRepository extends JpaRepository<Field, Long> {
+    Field getFieldById(Long fieldId);
 }

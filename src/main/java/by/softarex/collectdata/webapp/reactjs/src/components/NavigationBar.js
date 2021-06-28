@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 export default class NavigationBar extends React.Component {
     render() {
         return (
-            <Navbar bg="dark" variant="dark">
+            <Navbar bg="light" variant="bright">
                 <Link to={""} className="navbar-brand">
                     <img
                         src="https://hsto.org/getpro/moikrug/uploads/user/100/023/360/1/avatar/727742be38878ff36b22555071a0a427.jpg"
@@ -19,7 +19,7 @@ export default class NavigationBar extends React.Component {
                 </Navbar.Brand>
                 <Nav className="me-auto">
                     <Link to={"fields"} className="navbar-brand"> Fields </Link>
-                    <Link to={"field"} className="navbar-brand">New field</Link>
+                    <Link to={"responses"} className="navbar-brand">Responses</Link>
                 </Nav>
             </Navbar>
         )

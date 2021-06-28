@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000/")
 public class UserController {
 
     private UserService userService;
@@ -30,14 +31,14 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody User user, HttpServletRequest request) {
         if (userService.login(user) != null) {
-        //    request.getSession().setAttribute("authenticated", true);
+            request.getSession().setAttribute("authenticated", true);
             return ResponseEntity.ok(user);
         } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/logout")
     public ResponseEntity<User> logout(HttpServletRequest request) {
-       // request.getSession().setAttribute("authenticated", null);
+        request.getSession().setAttribute("authenticated", null);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

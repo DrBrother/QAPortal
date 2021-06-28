@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -67,4 +68,21 @@ public class FieldService {
         Field deleteField = fieldRepository.getById(fieldId);
         fieldRepository.delete(deleteField);
     }
+
+    public Field getFieldById(Long fieldId){
+        return  fieldRepository.getFieldById(fieldId);
+    }
+
+    public List<String> getFieldLabel(){
+        JSONArray labelJSONarr = new JSONArray(fieldRepository.findAll());
+
+        List<String> fieldLabel = new ArrayList<>();
+
+
+        for (int i = 0; i < labelJSONarr.length(); i++) {
+            fieldLabel.add(labelJSONarr.getJSONObject(i).getString("label"));
+        }
+        return fieldLabel;
+    }
+
 }

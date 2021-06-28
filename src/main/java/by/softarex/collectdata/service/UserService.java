@@ -19,8 +19,7 @@ public class UserService {
     }
 
     public User existsByEmail(User newUser) {
-        User existingUser = userRepository.getByEmail(newUser.getEmail());
-        return existingUser;
+        return userRepository.getByEmail(newUser.getEmail());
     }
 
     public User login(User user) {

@@ -25,6 +25,16 @@ public class FieldController {
         return ResponseEntity.ok(fieldService.findAll());
     }
 
+    @GetMapping("/fields/{fieldId}")
+    public ResponseEntity<Field> getFieldById(@PathVariable Long fieldId){
+        return ResponseEntity.ok(fieldService.getFieldById(fieldId));
+    }
+
+    @GetMapping("/fieldslabel")
+    public ResponseEntity<List<String>> getFieldLabel(){
+        return ResponseEntity.ok(fieldService.getFieldLabel());
+    }
+
     @PostMapping("/fields")
     public ResponseEntity<Field> save(@RequestBody String field) {
         return ResponseEntity.ok(fieldService.save(field));
@@ -32,10 +42,7 @@ public class FieldController {
 
     @PutMapping("/fields/{fieldId}")
     public ResponseEntity<Field> updateField(@RequestBody String updatedField, @PathVariable Long fieldId) {
-        Field field = fieldService.updateField(updatedField, fieldId);
-        if (field != null) {
-            return ResponseEntity.ok(field);
-        } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.ok(fieldService.updateField(updatedField, fieldId));
     }
 
     @DeleteMapping("/fields/{fieldId}")
