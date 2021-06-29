@@ -14,6 +14,15 @@ import ThankYou from "./components/ThankYou";
 import Registration from "./components/Registration";
 import Login from "./components/Login";
 import User from "./components/User"
+import axios from "axios";
+import axiosCookieJarSupport from "axios-cookiejar-support";
+import tough from 'tough-cookie';
+import EditProfile from "./components/EditProfile";
+
+const cookieJar = new tough.CookieJar()
+axiosCookieJarSupport(axios)
+axios.defaults.jar = cookieJar
+axios.defaults.withCredentials = true
 
 function App() {
     const marginTop = {
@@ -37,6 +46,7 @@ function App() {
                             <Route path="/registration" exact component={Registration}/>
                             <Route path="/login" exact component={Login}/>
                             <Route path="/user" exact component={User}/>
+                            <Route path="/edit" exact component={EditProfile}/>
                         </Switch>
                     </Col>
                 </Row>

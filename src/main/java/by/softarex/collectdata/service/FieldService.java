@@ -1,5 +1,6 @@
 package by.softarex.collectdata.service;
 
+import by.softarex.collectdata.dto.FieldDTO;
 import by.softarex.collectdata.model.Field;
 import by.softarex.collectdata.model.Option;
 import by.softarex.collectdata.repositories.FieldRepository;
@@ -28,40 +29,26 @@ public class FieldService {
         return fieldRepository.findAll();
     }
 
-    public Field save(String field) {
+    public void save(FieldDTO fieldDTO) {
         Field newField = new Field();
-        JSONObject updatedFieldJson = new JSONObject(field);
-        newField.setLabel(updatedFieldJson.getString("label"));
-        newField.setType(updatedFieldJson.getString("type"));
-        newField.setRequired(updatedFieldJson.getBoolean("required"));
-        newField.setActive(updatedFieldJson.getBoolean("active"));
-        if (!updatedFieldJson.isNull("option")) {
-            JSONArray jsonArray = updatedFieldJson.getJSONArray("option");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                newField.getOptionList().add(new Option(jsonArray.getString(i)));
-            }
-        }
-        return fieldRepository.save(newField);
+        newField.setLabel(fieldDTO.getLabel());
+        newField.setType(fieldDTO.getType());
+        newField.setRequired(fieldDTO.isRequired());
+        newField.setActive(fieldDTO.isActive());
+        fieldDTO.getOptions().forEach(option -> newField.getOptionList().add(new Option(option)));
+        fieldRepository.save(newField);
     }
 
-    public Field updateField(String updatedField, Long fieldId) {
-        JSONObject updatedFieldJson = new JSONObject(updatedField);
+    public void updateField(FieldDTO fieldDTO, Long fieldId) {
         Field existingField = fieldRepository.getById(fieldId);
-        existingField.setLabel(updatedFieldJson.getString("label"));
-        existingField.setType(updatedFieldJson.getString("type"));
-        existingField.setRequired(updatedFieldJson.getBoolean("required"));
-        existingField.setActive(updatedFieldJson.getBoolean("active"));
-
-        if (!updatedFieldJson.isNull("option")) {
-            existingField.getOptionList().clear();
-            JSONArray jsonArray = updatedFieldJson.getJSONArray("option");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                Option option = new Option(jsonArray.getString(i));
-                existingField.getOptionList().add(option);
-                optionRepository.save(option);
-            }
-        }
-        return fieldRepository.save(existingField);
+        existingField.setLabel(fieldDTO.getLabel());
+        existingField.setType(fieldDTO.getType());
+        existingField.setRequired(fieldDTO.isRequired());
+        existingField.setActive(fieldDTO.isActive());
+        existingField.getOptionList().clear();
+        fieldDTO.getOptions().forEach(option -> existingField.getOptionList().add(new Option(option)));
+        existingField.getOptionList().forEach(optionRepository::save);
+        fieldRepository.save(existingField);
     }
 
     public void deleteField(Long fieldId) {
@@ -69,20 +56,18 @@ public class FieldService {
         fieldRepository.delete(deleteField);
     }
 
-    public Field getFieldById(Long fieldId){
-        return  fieldRepository.getFieldById(fieldId);
+    public FieldDTO getFieldById(Long fieldId) {
+        Field field = fieldRepository.getFieldById(fieldId);
+        return new FieldDTO(field);
     }
 
-    public List<String> getFieldLabel(){
-        JSONArray labelJSONarr = new JSONArray(fieldRepository.findAll());
-
-        List<String> fieldLabel = new ArrayList<>();
-
-
-        for (int i = 0; i < labelJSONarr.length(); i++) {
-            fieldLabel.add(labelJSONarr.getJSONObject(i).getString("label"));
-        }
-        return fieldLabel;
-    }
+//    public List<String> getFieldLabel() {
+//        JSONArray labelJSONarr = new JSONArray(fieldRepository.findAll());
+//        List<String> fieldLabel = new ArrayList<>();
+//        for (int i = 0; i < labelJSONarr.length(); i++) {
+//            fieldLabel.add(labelJSONarr.getJSONObject(i).getString("label"));
+//        }
+//        return fieldLabel;
+//    }
 
 }

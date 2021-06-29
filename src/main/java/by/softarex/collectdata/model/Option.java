@@ -38,4 +38,8 @@ public class Option {
         this.option = option;
     }
 
+    @Override
+    public String toString() {
+        return option;
+    }
 }

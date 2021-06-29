@@ -4,7 +4,7 @@ import {Card, Form, Button, Col} from 'react-bootstrap';
 import axios from "axios";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSave, faPlusSquare, faList, faEdit} from '@fortawesome/free-solid-svg-icons';
-
+import eol from "eol";
 
 export default class Field extends Component {
 
@@ -19,9 +19,9 @@ export default class Field extends Component {
         id: '',
         label: '',
         type: '',
-        required: false,
-        active: false,
-        optionList: ''
+        required: '',
+        active: '',
+        options: ''
     }
 
     componentDidMount() {
@@ -34,14 +34,18 @@ export default class Field extends Component {
     submitField = event => {
 
         event.preventDefault();
-
         const field = {
-            label: this.state.label,
-            type: this.state.type,
-            required: this.state.required,
-            active: this.state.active,
-            optionList: this.state.optionList
+            ...this.state,
+            options: eol.split(this.state.options)
         }
+
+        // const field = {
+        //     label: this.state.label,
+        //     type: this.state.type,
+        //     required: this.state.required,
+        //     active: this.state.active,
+        //     optionList: this.state.optionList
+        // }
 
         axios.post("http://localhost:8080/fields", field)
             .then(response => {
@@ -56,14 +60,14 @@ export default class Field extends Component {
     findFieldById = (fieldId) => {
         axios.get('http://localhost:8080/fields/' + fieldId)
             .then(response => {
-
+                console.log(response.data)
                 if (response.data != null) {
                     this.setState({
                         id: response.data.id,
                         label: response.data.label,
                         type: response.data.type,
                         required: response.data.required,
-                        optionList: response.data.optionList
+                        options: response.data.options.join("\n")
                     })
                 }
             }).catch((error) => {
@@ -90,12 +94,8 @@ export default class Field extends Component {
         event.preventDefault();
 
         const field = {
-            id: this.state.id,
-            label: this.state.label,
-            type: this.state.type,
-            required: this.state.required,
-            active: this.state.active,
-            optionList: this.state.optionList
+            ...this.state,
+            options: eol.split(this.state.options)
         }
 
         axios.put("http://localhost:8080/fields/" + this.state.id, field)
@@ -111,7 +111,7 @@ export default class Field extends Component {
 
     render() {
 
-        const {label, required, active, type, optionList} = this.state;
+        const {label, required, active, type, options} = this.state;
 
 
         return (
@@ -160,8 +160,10 @@ export default class Field extends Component {
                             <Form.Group as={Col} className="mb-3" controlId="exampleForm.ControlTextarea1">
                                 <Form.Label>Options</Form.Label>
                                 <Form.Control
-                                    value={optionList}
-                                    name="optionList"
+                                    required={this.state.type === "combobox" || this.state.type === "checkbox" || this.state.type === "radio button"}
+                                    disabled={this.state.type === "single line text" || this.state.type === "date" || this.state.type === "multiline text"}
+                                    value={options}
+                                    name="options"
                                     onChange={this.fieldChange}
                                     as="textarea" rows={3}/>
                             </Form.Group>

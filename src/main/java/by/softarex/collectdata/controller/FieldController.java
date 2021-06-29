@@ -1,5 +1,6 @@
 package by.softarex.collectdata.controller;
 
+import by.softarex.collectdata.dto.FieldDTO;
 import by.softarex.collectdata.model.Field;
 import by.softarex.collectdata.service.FieldService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,23 +27,18 @@ public class FieldController {
     }
 
     @GetMapping("/fields/{fieldId}")
-    public ResponseEntity<Field> getFieldById(@PathVariable Long fieldId){
+    public ResponseEntity<FieldDTO> getFieldById(@PathVariable Long fieldId) {
         return ResponseEntity.ok(fieldService.getFieldById(fieldId));
     }
 
-    @GetMapping("/fieldslabel")
-    public ResponseEntity<List<String>> getFieldLabel(){
-        return ResponseEntity.ok(fieldService.getFieldLabel());
-    }
-
     @PostMapping("/fields")
-    public ResponseEntity<Field> save(@RequestBody String field) {
-        return ResponseEntity.ok(fieldService.save(field));
+    public void save(@RequestBody FieldDTO fieldDTO) {
+        fieldService.save(fieldDTO);
     }
 
     @PutMapping("/fields/{fieldId}")
-    public ResponseEntity<Field> updateField(@RequestBody String updatedField, @PathVariable Long fieldId) {
-            return ResponseEntity.ok(fieldService.updateField(updatedField, fieldId));
+    public void updateField(@RequestBody FieldDTO fieldDTO, @PathVariable Long fieldId) {
+        fieldService.updateField(fieldDTO, fieldId);
     }
 
     @DeleteMapping("/fields/{fieldId}")
@@ -50,4 +46,9 @@ public class FieldController {
         fieldService.deleteField(fieldId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+//    @GetMapping("/fieldslabel")
+//    public ResponseEntity<List<String>> getFieldLabel() {
+//        return ResponseEntity.ok(fieldService.getFieldLabel());
+//    }
 }

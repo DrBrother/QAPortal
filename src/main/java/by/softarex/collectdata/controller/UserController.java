@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
@@ -21,24 +22,30 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<User> registration(@RequestBody User newUser) {
+    public ResponseEntity<User> registration(@RequestBody User newUser, HttpServletRequest request) {
         User user = userService.existsByEmail(newUser);
         if (user == null) {
+            request.getSession().setAttribute("authenticated", true);
             return ResponseEntity.ok(userService.save(newUser));
         } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody User user, HttpServletRequest request) {
-        if (userService.login(user) != null) {
+        User existingUser = userService.login(user);
+        if (existingUser != null) {
             request.getSession().setAttribute("authenticated", true);
-            return ResponseEntity.ok(user);
+            return ResponseEntity.ok(existingUser);
         } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/logout")
     public ResponseEntity<User> logout(HttpServletRequest request) {
-        request.getSession().setAttribute("authenticated", null);
+        try {
+            request.logout();
+        } catch (ServletException e) {
+            e.printStackTrace();
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
