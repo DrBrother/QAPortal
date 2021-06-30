@@ -18,6 +18,7 @@ import axios from "axios";
 import axiosCookieJarSupport from "axios-cookiejar-support";
 import tough from 'tough-cookie';
 import EditProfile from "./components/EditProfile";
+import EditPassword from "./components/EditPassword";
 
 const cookieJar = new tough.CookieJar()
 axiosCookieJarSupport(axios)
@@ -47,6 +48,7 @@ function App() {
                             <Route path="/login" exact component={Login}/>
                             {/*<Route path="/user" exact component={User}/>*/}
                             <Route path="/edit" exact component={EditProfile}/>
+                            <Route path="/password" exact component={EditPassword}/>
                         </Switch>
                     </Col>
                 </Row>

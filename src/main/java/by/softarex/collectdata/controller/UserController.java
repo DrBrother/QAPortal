@@ -1,5 +1,6 @@
 package by.softarex.collectdata.controller;
 
+import by.softarex.collectdata.dto.PasswordDTO;
 import by.softarex.collectdata.model.User;
 import by.softarex.collectdata.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,8 +70,8 @@ public class UserController {
     }
 
     @PutMapping("users/{userId}/password")
-    public ResponseEntity<User> updatePassword(@RequestBody String user, @PathVariable Long userId) {
-        User newUser = userService.updatePassword(user, userId);
+    public ResponseEntity<User> updatePassword(@RequestBody PasswordDTO passwordDTO, @PathVariable Long userId) {
+        User newUser = userService.updatePassword(passwordDTO, userId);
         if (newUser != null) {
             return ResponseEntity.ok(newUser);
         } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

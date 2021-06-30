@@ -60,7 +60,7 @@ import User from "./User";
                 <Nav className="navbar-right" className="ml-auto">
                     <NavDropdown  title={this.state.username} id="navbarScrollingDropdown">
                         <NavDropdown.Item href={'/edit'}>Edit Profile</NavDropdown.Item>
-                        {/*<NavDropdown.Item href={'/------'}>Change password</NavDropdown.Item>*/}
+                        <NavDropdown.Item href={'/password'}>Change password</NavDropdown.Item>
                         <NavDropdown.Item onClick={this.logout }>Logout</NavDropdown.Item>
                     </NavDropdown>
                     <Link to={"fields"} className="navbar-brand">Fields </Link>

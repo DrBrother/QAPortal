@@ -1,5 +1,6 @@
 package by.softarex.collectdata.service;
 
+import by.softarex.collectdata.dto.PasswordDTO;
 import by.softarex.collectdata.model.Option;
 import by.softarex.collectdata.model.User;
 import by.softarex.collectdata.repositories.UserRepository;
@@ -63,16 +64,26 @@ public class UserService {
         return userRepository.save(existingUser);
     }
 
-    public User updatePassword(String updatedUser, Long userId) {
-        JSONObject updatedUserJson = new JSONObject(updatedUser);
-        User existingUser = userRepository.getById(userId);
-        if (updatedUserJson.getString("currentPassword").equals(existingUser.getPassword())) {
-            if (!updatedUserJson.getString("newPassword").equals("")) {
-                existingUser.setPassword(updatedUserJson.getString("newPassword"));
-            }
-            return userRepository.save(existingUser);
-        }
-        return null;
+//    public User updatePassword(String updatedUser, Long userId) {
+//        JSONObject updatedUserJson = new JSONObject(updatedUser);
+//        User existingUser = userRepository.getById(userId);
+//        if (updatedUserJson.getString("currentPassword").equals(existingUser.getPassword())) {
+//            if (!updatedUserJson.getString("newPassword").equals("")) {
+//                existingUser.setPassword(updatedUserJson.getString("newPassword"));
+//            }
+//            return userRepository.save(existingUser);
+//        }
+//        return null;
+//    }
+
+
+    public User updatePassword(PasswordDTO passwordDTO, Long userId){
+        Optional<User> userOptional= userRepository.findById(userId);
+        User user = userOptional.get();
+        if(passwordDTO.getPassword().equals(user.getPassword())){
+            user.setPassword(passwordDTO.getNewPassword());
+            return userRepository.save(user);
+        } else return null;
     }
 
     public User getUserById(Long userId){
