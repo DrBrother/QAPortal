@@ -5,7 +5,7 @@ import {Link, Route, Switch, withRouter} from 'react-router-dom';
 import {faSignInAlt, faUserPlus} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import User from "./User";
+
 
 
 

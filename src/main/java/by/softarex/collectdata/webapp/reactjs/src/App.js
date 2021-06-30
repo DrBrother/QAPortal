@@ -13,7 +13,6 @@ import Response from "./components/Response";
 import ThankYou from "./components/ThankYou";
 import Registration from "./components/Registration";
 import Login from "./components/Login";
-import User from "./components/User"
 import axios from "axios";
 import axiosCookieJarSupport from "axios-cookiejar-support";
 import tough from 'tough-cookie';
@@ -46,7 +45,6 @@ function App() {
                             <Route path="/responses" exact component={Response}/>
                             <Route path="/registration" exact component={Registration}/>
                             <Route path="/login" exact component={Login}/>
-                            {/*<Route path="/user" exact component={User}/>*/}
                             <Route path="/edit" exact component={EditProfile}/>
                             <Route path="/password" exact component={EditPassword}/>
                         </Switch>

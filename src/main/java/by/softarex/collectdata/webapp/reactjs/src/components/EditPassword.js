@@ -64,7 +64,7 @@ export default class EditPassword extends Component {
                 <Col xs={5}>
                     <Card className={"border border-dark bg-white text-dark"}>
                         <Card.Header>
-                            Edit Profile
+                            Edit Password
                         </Card.Header>
                         <Card.Body>
                             <Form.Row>
