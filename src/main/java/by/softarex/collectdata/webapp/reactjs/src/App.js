@@ -45,7 +45,7 @@ function App() {
                             <Route path="/responses" exact component={Response}/>
                             <Route path="/registration" exact component={Registration}/>
                             <Route path="/login" exact component={Login}/>
-                            <Route path="/user" exact component={User}/>
+                            {/*<Route path="/user" exact component={User}/>*/}
                             <Route path="/edit" exact component={EditProfile}/>
                         </Switch>
                     </Col>

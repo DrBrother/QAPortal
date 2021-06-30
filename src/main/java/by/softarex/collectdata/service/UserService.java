@@ -1,10 +1,13 @@
 package by.softarex.collectdata.service;
 
+import by.softarex.collectdata.model.Option;
 import by.softarex.collectdata.model.User;
 import by.softarex.collectdata.repositories.UserRepository;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -70,6 +73,11 @@ public class UserService {
             return userRepository.save(existingUser);
         }
         return null;
+    }
+
+    public User getUserById(Long userId){
+        Optional<User> optionalUser = userRepository.findById(userId);
+        return optionalUser.orElse(null);
     }
 }
 

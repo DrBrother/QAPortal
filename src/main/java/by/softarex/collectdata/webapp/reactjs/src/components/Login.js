@@ -10,6 +10,7 @@ class Login extends Component {
         super(props);
         this.state = this.initialState;
         this.redirectCheck()
+        console.log(localStorage)
     }
 
     initialState = {
